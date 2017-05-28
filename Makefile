@@ -1,5 +1,9 @@
 NODE_OPTS = --harmony-collections
 TEST_OPTS =
+
+# NOTE: Sorry, mocumentation is not yet published.
+MOCUMENT = ~/Documents/Mocumentation/bin/mocument
+MOCUMENT_OPTS = --type yui --title SquareBatman.js --priority SquareBatman
 GITHUB_URL = https://github.com/moll/js-square-batman
 
 love:
@@ -26,21 +30,13 @@ publish:
 tag:
 	git tag "v$$(node -e 'console.log(require("./package").version)')"
 
-# NOTE: Sorry, mocumentation is not yet published.
 doc: doc.json
 	@mkdir -p doc
-	@~/Documents/Mocumentation/bin/mocument \
-		--type yui \
-		--title SquareBatman.js \
-		--priority SquareBatman \
-		tmp/doc/data.json > doc/API.md
+	@$(MOCUMENT) $(MOCUMENT_OPTS) tmp/doc/data.json > doc/API.md
 
 toc: doc.json
-	@~/Documents/Mocumentation/bin/mocument \
-		--type yui \
+	@$(MOCUMENT) $(MOCUMENT_OPTS) \
 		--template toc \
-		--title SquareBatman.js \
-		--priority SquareBatman \
 		--var api_url=$(GITHUB_URL)/blob/master/doc/API.md \
 		tmp/doc/data.json > tmp/TOC.md
 
